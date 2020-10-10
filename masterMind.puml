@@ -1,0 +1,44 @@
+@startuml
+skinparam nodesep 90
+skinparam ranksep 100
+skinparam shadowing false
+
+Mastermind *-down-> "2" Player
+Mastermind *-down-> Board
+
+Player <|-down- CodeBreaker
+Player <|-down- CodeMaker
+
+CodeBreaker o-down->"0..12" ProuposedPattern
+
+Board o-down-> Peg
+Board o-down-> ProuposedPattern
+Board *-down-> SecretPattern
+Board o-down->"0..12" FeedBack
+Board o-down-> CorrectPattern
+
+Peg <|-down-"6 colors" CodePeg
+Peg <|-down-KeyPeg
+
+Position o-down-> CodePeg
+
+CodeMaker *-down-> SecretPattern
+CodeMaker *-down-> Score
+CodeMaker o-down-> FeedBack
+
+FeedBack *-down->"0..4" KeyPeg
+
+Pattern <|-down- SecretPattern
+Pattern <|-down-ProuposedPattern
+
+ProuposedPattern "4"*-down->CodePeg
+ProuposedPattern *-down-> Position
+ProuposedPattern o-down-> CorrectPattern
+
+SecretPattern "4"*-down-> CodePeg
+SecretPattern *-down-> Position
+
+CorrectPattern -down->"4 blacks" KeyPeg
+CorrectPattern -down-> "4"Position
+
+@enduml
