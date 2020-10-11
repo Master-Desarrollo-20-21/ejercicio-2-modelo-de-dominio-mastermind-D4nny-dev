@@ -1,44 +1,50 @@
 @startuml
-skinparam nodesep 90
-skinparam ranksep 100
+title MasterMind
+skinparam style strictuml
 skinparam shadowing false
+skinparam nodesep 100
+skinparam ranksep 100
 
 Mastermind *-down-> "2" Player
+Mastermind *-down-> "2" Turn
 Mastermind *-down-> Board
 
-Player <|-down- CodeBreaker
+Turn -down-> Player
+
 Player <|-down- CodeMaker
+Player <|-down- CodeBreaker
 
-CodeBreaker o-down->"0..12" ProuposedPattern
+Board *-down->SecretPattern
+Board o-down->"0..12"ProposedPattern
 
-Board o-down-> Peg
-Board o-down-> ProuposedPattern
-Board *-down-> SecretPattern
-Board o-down->"0..12" FeedBack
-Board o-down-> CorrectPattern
-
-Peg <|-down-"6 colors" CodePeg
-Peg <|-down-KeyPeg
-
-Position o-down-> CodePeg
-
-CodeMaker *-down-> SecretPattern
-CodeMaker *-down-> Score
-CodeMaker o-down-> FeedBack
-
-FeedBack *-down->"0..4" KeyPeg
-
+Pattern <|-down- ProposedPattern
 Pattern <|-down- SecretPattern
-Pattern <|-down-ProuposedPattern
 
-ProuposedPattern "4"*-down->CodePeg
-ProuposedPattern *-down-> Position
-ProuposedPattern o-down-> CorrectPattern
+CodeMaker -down-> SecretPattern
+CodeMaker -down-> Score
+CodeBreaker -down-> ProposedPattern
 
-SecretPattern "4"*-down-> CodePeg
-SecretPattern *-down-> Position
 
-CorrectPattern -down->"4 blacks" KeyPeg
-CorrectPattern -down-> "4"Position
+CorrectPattern *-down-> ProposedPattern
+CorrectPattern -down-> SecretPattern
+
+ProposedPattern *-down->"4"CodePeg
+CorrectPattern *-down->"4"KeyPeg
+SecretPattern *-down->"4"CodePeg
+
+ProposedPattern -down-> Score
+
+CodePeg -down->Position
+Peg <|-down- KeyPeg
+Peg <|-down- CodePeg
+
+note bottom of KeyPeg
+ <size:9><i>Black:Correct color & position</i></size>
+ <size:9><i>White:Correct color bad position</i></size>
+end note
+
+note bottom of CodePeg
+ <size:9><i>6 colors</i></size>
+end note
 
 @enduml
