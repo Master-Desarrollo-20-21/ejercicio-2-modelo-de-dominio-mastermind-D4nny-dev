@@ -1,0 +1,38 @@
+@startuml
+
+skinparam shadowing false
+skinparam nodesep 20
+skinparam ranksep 40
+
+[*] --> InitGame: initializeGame
+
+note on link 
+  <size:9>* Chose a roles</size>
+  <size:9>* Number of games (even)</size>
+end note
+
+InitGame --> GenerateSecretPattern : setSecretPattern
+GenerateSecretPattern --> InGame : proposePattern
+
+state FeedBack <<choice>>
+state MakerCodeCheck <<choice>>
+
+InGame--> MakerCodeCheck
+MakerCodeCheck --> FeedBack: FeedbackFromCodeMaker
+MakerCodeCheck --> WinnerCodeMaker : [isAttemtp >= 12]
+WinnerCodeMaker --> InitGame : changeRol
+
+FeedBack --> InGame: addScoreToCodeMaker
+FeedBack --> WinnerCodeBreaker: [isCorrectPattern]
+WinnerCodeBreaker -->InitGame: changeRol
+WinnerCodeBreaker --> [*] 
+WinnerCodeMaker --> [*]
+
+state InitGame as " "
+state GenerateSecretPattern as " "
+state InGame as " "
+state FeedBack as " " 
+state WinnerCodeBreaker  as " "
+state WinnerCodeMaker as " "
+
+@enduml
